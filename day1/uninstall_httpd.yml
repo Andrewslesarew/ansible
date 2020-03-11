@@ -1,0 +1,28 @@
+---
+
+- name: install httpd
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: stop httpd
+    service:
+      name: httpd
+      state: stopped
+
+  - name: uninstall httpd
+    package:
+      name: httpd
+      state: absent
+
+  - name: delete index.html
+    file:
+      path: /var/www/html/index.html
+      state: absent
+
+  - name: close firewall
+    firewalld:
+      port: 80/tcp
+      permanent: yes
+      state: disabled
+      immediate: yes

@@ -1,0 +1,11 @@
+---
+
+- name: hello
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: line insert
+    lineinfile:
+      path: /etc/motd
+      line: 'Hello from Ansible'

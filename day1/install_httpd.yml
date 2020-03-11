@@ -1,0 +1,33 @@
+---
+
+- name: install httpd
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: install httpd
+    package:
+      name: httpd
+      state: latest
+
+  - name: start httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+
+  - name: copy index.html
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      owner: apache
+      group: apache
+      mode: '0600'
+      force: yes
+
+  - name: open firewall
+    firewalld:
+      port: 80/tcp
+      permanent: yes
+      state: enabled
+      immediate: yes
